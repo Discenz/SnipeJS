@@ -1,0 +1,30 @@
+{
+  "name": "snipejs",
+  "version": "1.0.0",
+  "description": "Minecraft name sniper written in JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Virachoca/SnipeJS.git"
+  },
+  "keywords": [
+    "Minecraft",
+    "name",
+    "snipe",
+    "sniper",
+    "nodejs"
+  ],
+  "author": "Discens",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Virachoca/SnipeJS/issues"
+  },
+  "homepage": "https://github.com/Virachoca/SnipeJS#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
