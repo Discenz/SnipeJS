@@ -4,9 +4,20 @@
 */
 
 const axios = require('axios');
+
+const fs = require('fs');
 const prompt = require('prompt-sync')();
 
 const logger = require('./logger');
+
+const init = async (config) => {
+	const auth = await authenticate(config.email, config.password);
+	const chal = await challenges(auth.token, config);
+	const val= await validate(auth.token);
+	
+	return auth;
+}
+
 
 const authenticate = async (email, password) => {
   const json = {
@@ -63,7 +74,8 @@ const challenges = async (token, config) => {
 
   if(flag) {
     let newConf = {email:config.email, password:config.password, questions:config.questions}
-    if(prompt('Save (Y/N): ').toUpperCase == 'Y') fs.writeFileSync('../config.json', JSON.stringify(newConf))
+    const save = prompt('Save (Y/N): ');
+    if(save.toUpperCase() == 'Y') fs.writeFileSync('../config.json', JSON.stringify(newConf));
   }
 
   const answerPost = await axios.post(
@@ -93,6 +105,4 @@ const validate = async (token) => {
   return true;
 }
 
-exports.authenticate = authenticate;
-exports.validate = validate;
-exports.challenges = challenges;
+exports.init = init;

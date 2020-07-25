@@ -13,12 +13,13 @@ let config = conf.init();
 //Initializing
 const init = async () => {
     //Authentication
-    const json = await auth.authenticate(config.email, config.password);
-    const challenges = await auth.challenges(json.token, config);
-    const validate = await auth.validate(json.token);
+    const json = await auth.init(config);
+
     console.log();
 
     config.target = prompt('Please input target: ')
+
+    console.log();
 
     //Get time
     snipeTime = await util.getAvailableTime(config.target);
