@@ -8,4 +8,4 @@
 
 * exist#0001 - Bearer authentication
 
-* [Moni](https://github.com/NotMoni) - documentation
+* [Moni](https://github.com/NotMoni) - documentation, README
