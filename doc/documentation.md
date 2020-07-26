@@ -1,5 +1,7 @@
 # In depth usage of SnipeJS
 
+> **[IMPORTANT]** This document is deprecated as of 26/7/2020, will be updated with new usage in future
+
 ## Prerequisites:
 - [NodeJS](https://nodejs.org/en/download/)
 - [Git](https://git-scm.com/downloads) (optional)
