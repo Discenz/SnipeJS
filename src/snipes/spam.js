@@ -2,14 +2,14 @@ const logger = require('../util/logger')
 
 const axios = require('axios');
 
-let snipeTime, uuid, auth, json;
+let snipeTime, uuid, token, json;
 
 const snipe = () => {
   axios.post(
     "https://api.mojang.com/user/profile/"+uuid+"/name",
     json,
     {headers: {
-      "Authorization": auth
+      "Authorization": token
     }}
   ).then(function (response){
       console.log(response.data);
