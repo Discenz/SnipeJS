@@ -4,17 +4,16 @@ const conf = require('./util/conf');
 const http = require('./util/http');
 const logger = require('./util/logger');
 
-
-const prompt = require('prompt-sync')();
-
-util.printTitle();
-
-let config = conf.init();
+const readlineSync = require('readline-sync');
+const prompt = readlineSync.question;
 
 const init = async () => {
-    const delay = Math.abs(await http.getTime() - new Date());
-    if (delay > 30) logger.warn(`Clock is out of sync (${delay} ms)`);
+    util.printTitle();
 
+    const delay = await http.getTime() - new Date();
+    if (Math.abs(delay) > 30) logger.warn(`Clock is out of sync (${delay} ms)`);
+
+    let config = conf.init();
     const authentication = await auth.init(config);
 
     console.log();
@@ -22,7 +21,6 @@ const init = async () => {
     console.log();
 
     snipeTime = await http.getAvailableTime(config.target);
-
     const converted = util.convertTime((snipeTime.getTime()-new Date()));
     logger.info(config.target+" is available in "+converted[0]+" "+converted[1]);
 

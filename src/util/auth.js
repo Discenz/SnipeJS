@@ -6,7 +6,8 @@
 const axios = require('axios');
 
 const fs = require('fs');
-const prompt = require('prompt-sync')();
+const readlineSync = require('readline-sync');
+const prompt = readlineSync.question;
 
 const logger = require('./logger');
 
@@ -35,8 +36,6 @@ const authenticate = async (email, password) => {
   const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id, snipe:req.data.selectedProfile.paid}
 
   logger.info(`Succesfully authenticated ${res.name}.`);
-	if (res.snipe) logger.info(`Account purchased, will snipe`);
-	else logger.info(`Account not purchased, will block`);
 
   return res;
 }
@@ -76,8 +75,7 @@ const challenges = async (token, config) => {
 
   if(flag) {
     let newConf = {email:config.email, password:config.password, questions:config.questions}
-    const save = prompt('Save (Y/N): ');
-    if(save.toUpperCase() == 'Y') fs.writeFileSync('../config.json', JSON.stringify(newConf));
+		if (readlineSync.keyInYNStrict("Save")) fs.writeFileSync('../config.json', JSON.stringify(newConf));
   }
 
   const answerPost = await axios.post(

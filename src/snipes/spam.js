@@ -30,7 +30,7 @@ const setup = (time, config, auth) => {
   token = "Bearer " +auth.token;
   json = {name: config.target, password: config.password}
 
-  setTimeout(sniper, snipeTime.getTime() - new Date() - 1000);
+  setTimeout(sniper, (snipeTime - new Date() - 1000));
 }
 
 
