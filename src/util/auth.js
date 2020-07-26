@@ -14,7 +14,7 @@ const init = async (config) => {
 	const auth = await authenticate(config.email, config.password);
 	const chal = await challenges(auth.token, config);
 	const val= await validate(auth.token);
-	
+
 	return auth;
 }
 
@@ -32,9 +32,11 @@ const authenticate = async (email, password) => {
 
   if (req.status != 200) logger.error(`Could not authenticate: ${email}:${password}`);
 
-  const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id}
+  const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id, snipe:req.data.selectedProfile.paid}
 
   logger.info(`Succesfully authenticated ${res.name}.`);
+	if (res.snipe) logger.info(`Account purchased, will snipe`);
+	else logger.info(`Account not purchased, will block`);
 
   return res;
 }
