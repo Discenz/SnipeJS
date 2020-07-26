@@ -14,13 +14,13 @@ const snipe = () => {
   ).then(function (response){
       console.log(response.data);
   }).catch(function (error) {
-      console.log("Snipe failed!")
-      console.log(error);
+      logger.warn("Snipe failed! at" + (snipeTime- new Date()) + "ms");
+      console.log(error.response.data);
   });
 }
 
 const sniper = () => {
-  console.info("Attempting to snipe")
+  logger.info("Attempting to snipe")
   for(let i=0; i<20; i++) snipe();
 }
 

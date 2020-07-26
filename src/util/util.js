@@ -3,10 +3,7 @@
  * Author: Discens
 */
 
-
 const fs = require('fs');
-const cheerio = require('cheerio');
-const axios = require('axios');
 const logger = require('./logger');
 
 const printTitle = () => {
@@ -21,20 +18,5 @@ const convertTime = (time) => {
   return arr;
 }
 
-
-const getAvailableTime = async (name) => {
-    const req = await axios("https://namemc.com/name/"+name);
-    if(req.status != 200) error("[ERROR] Could not connect to NameMC.");
-
-    const $ = cheerio.load(req.data);
-
-    if($('.my-1').text().match(/Available/) == null) logger.error(name+" is not available");
-
-    const time = new Date(Object.values(Object.values($('.countdown-timer'))[0].attribs)[1]);
-
-    return time;
-}
-
 exports.convertTime = convertTime;
 exports.printTitle = printTitle;
-exports.getAvailableTime = getAvailableTime;
