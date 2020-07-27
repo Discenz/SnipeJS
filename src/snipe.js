@@ -15,17 +15,22 @@ const init = async () => {
 
     let config = conf.init();
     const authentication = await auth.init(config);
+    const authTime = new Date();
 
     console.log();
     config.target = prompt('Please input target: ')
     console.log();
 
     snipeTime = await http.getAvailableTime(config.target);
-    const converted = util.convertTime((snipeTime.getTime()-new Date()));
+    const converted = util.convertTime(snipeTime.getTime()-new Date());
     logger.info(config.target+" is available in "+converted[0]+" "+converted[1]);
 
+    let reauth = false;
+    if ((snipeTime-authTime) > 59000) reauth = true;
+
+
     const sniper = require('./snipes/spam');
-    sniper.setup(snipeTime, config, authentication);
+    sniper.setup(snipeTime, config, authentication, reauth);
 }
 
 init();

@@ -51,3 +51,4 @@ const getTime = async () => {
 exports.getAvailableTime = getAvailableTime;
 exports.getTime = getTime;
 exports.getUUID = getUUID;
+exports.ping = ping;

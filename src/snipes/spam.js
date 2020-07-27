@@ -1,4 +1,6 @@
 const logger = require('../util/logger')
+const auth = require('../util/auth')
+const http = require('../util/http')
 
 const axios = require('axios');
 
@@ -21,16 +23,33 @@ const snipe = () => {
 
 const sniper = () => {
   logger.info("Attempting to snipe")
-  for(let i=0; i<20; i++) snipe();
+  for(let i=0; i<5; i++) snipe();
 }
 
-const setup = (time, config, auth) => {
+const preSnipe = async (reauth, authentication, config) => {
+  logger.info("Preparing to snipe in 30s");
+  if(reauth){
+    authentication = await auth.init(config.email, config.password);
+    logger.info("Reauthentication succesful");
+  }
+  token = "Bearer " +authentication.token;
+
+  let max = 0;
+  for(let i=0; i<3; i++){
+    const delay = await http.ping();
+    if(delay>max) max = delay;
+  }
+  logger.info("Latency is "+max+"ms.");
+
+  setTimeout(sniper, (snipeTime - new Date() - max - 10));
+}
+
+const setup = (time, config, authentication, reauth) => {
   snipeTime = time;
-  uuid = auth.id;
-  token = "Bearer " +auth.token;
+  uuid = authentication.id;
   json = {name: config.target, password: config.password}
 
-  setTimeout(sniper, (snipeTime - new Date() - 1000));
+  setTimeout(preSnipe, (snipeTime - new Date() - 30000), reauth, authentication, config);
 }
 
 
