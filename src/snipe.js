@@ -12,7 +12,6 @@ const init = async () => {
 
     let config = await conf.init();
     const authentication = await auth.init(config);
-    const authTime = new Date();
 
     console.log();
     config.target = util.prompt('Please input target: ')
@@ -23,8 +22,7 @@ const init = async () => {
     logger.info(config.target+" is available in "+converted[0]+" "+converted[1]);
 
     let reauth = false;
-    if ((snipeTime-authTime) > 59000) reauth = true;
-
+    if ((snipeTime-authentication.authTime) > 50000) reauth = true;
 
     const sniper = require('./snipes/spam');
     sniper.setup(snipeTime, config, authentication, reauth);

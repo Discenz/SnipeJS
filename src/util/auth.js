@@ -30,7 +30,7 @@ const authenticate = async (email, password) => {
 
   if (req.status != 200) logger.error(`Could not authenticate: ${email}`);
 
-  const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id}
+  const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id, authTime: new Date()}
 
   logger.info(`Succesfully authenticated ${res.name}.`);
 
