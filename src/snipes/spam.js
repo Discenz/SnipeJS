@@ -29,7 +29,7 @@ const sniper = () => {
 const preSnipe = async (reauth, authentication, config) => {
   logger.info("Preparing to snipe in 30s");
   if(reauth){
-    authentication = await auth.init(config.email, config.password);
+    authentication = await auth.init(config);
     logger.info("Reauthentication succesful");
   }
   token = "Bearer " +authentication.token;
