@@ -8,28 +8,36 @@ const fs = require('fs');
 const logger = require('./logger');
 const util = require('./util');
 
+const settings = require('../../json/settings.json');
+
 const init = async () => {
 
   let config = {};
+  let profiles = {};
 
-  if (fs.existsSync('../config.json')) {
-    config = JSON.parse(fs.readFileSync('../config.json'));
+  logger.info("Please input credentials\n");
 
-    if(config.email == undefined) logger.error("No email in config!");
-    if(config.password == undefined) logger.error("No password in config!");
+  config.email = util.prompt('Email: ');
+  let exists = false;
+
+  if (fs.existsSync('../json/profiles.json')) {
+    profiles = JSON.parse(fs.readFileSync('../json/profiles.json'));
+    if(profiles[config.email] != undefined) {
+      config = profiles[config.email];
+      exists = true;
+    }
   }
 
-  else {
-    logger.warn("Configuration not found! Input credentials\n");
-
-    config.email = util.prompt('Email: ');
+  if(!exists){
     config.password = util.prompt('Password: ', {noEchoBack: true});
-
-    if (await util.selectYN("Save")) fs.writeFileSync('../config.json', JSON.stringify(config));
-
-    console.log();
-
+    if (settings.askSave && await util.selectYN("Save")){
+      profiles[config.email] = config;
+      fs.writeFileSync('../json/profiles.json', JSON.stringify(profiles));
+    }
   }
+
+  console.log();
+
 
   return config;
 

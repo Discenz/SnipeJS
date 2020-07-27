@@ -29,8 +29,8 @@ const sniper = () => {
 const preSnipe = async (reauth, authentication, config) => {
   logger.info("Preparing to snipe in 30s");
   if(reauth){
+    logger.warn("Token expired, attempting to reauthenticate");
     authentication = await auth.init(config);
-    logger.info("Reauthentication succesful");
   }
   token = "Bearer " +authentication.token;
 

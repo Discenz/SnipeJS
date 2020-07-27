@@ -9,6 +9,8 @@ const fs = require('fs');
 const logger = require('./logger');
 const util = require('./util');
 
+const settings = require('../../json/settings.json');
+
 const init = async (config) => {
 	const auth = await authenticate(config.email, config.password);
 	const chal = await challenges(auth.token, config);
@@ -71,8 +73,12 @@ const challenges = async (token, config) => {
   }
 
   if(flag) {
-    let newConf = {email:config.email, password:config.password, questions:config.questions}
-		if (await util.selectYN("Save")) fs.writeFileSync('../config.json', JSON.stringify(newConf));
+		if (settings.askSave && await util.selectYN("Save")) {
+			let profiles = {};
+			if (fs.existsSync('../json/profiles.json')) profiles = JSON.parse(fs.readFileSync('../json/profiles.json'));
+			profiles[config.email] = config;
+			fs.writeFileSync('../json/profiles.json', JSON.stringify(profiles));
+		}
   }
 
   const answerPost = await axios.post(
