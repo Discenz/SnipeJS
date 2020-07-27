@@ -4,12 +4,10 @@
 */
 
 const axios = require('axios');
-
 const fs = require('fs');
-const readlineSync = require('readline-sync');
-const prompt = readlineSync.question;
 
 const logger = require('./logger');
+const util = require('./util');
 
 const init = async (config) => {
 	const auth = await authenticate(config.email, config.password);
@@ -64,7 +62,7 @@ const challenges = async (token, config) => {
   }
 
   for(let i=0; i<3; i++){
-    if(flag) config.questions.push(prompt(getQuestions.data[i].question.question+" "));
+    if(flag) config.questions.push(util.prompt(getQuestions.data[i].question.question+" "));
 
     answer.push({
         id: getQuestions.data[i].answer.id,
@@ -74,7 +72,7 @@ const challenges = async (token, config) => {
 
   if(flag) {
     let newConf = {email:config.email, password:config.password, questions:config.questions}
-		if (readlineSync.keyInYNStrict("Save")) fs.writeFileSync('../config.json', JSON.stringify(newConf));
+		if (await util.selectYN("Save")) fs.writeFileSync('../config.json', JSON.stringify(newConf));
   }
 
   const answerPost = await axios.post(

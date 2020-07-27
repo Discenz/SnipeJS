@@ -13,7 +13,7 @@ const init = async () => {
     const delay = await http.getTime() - new Date();
     if (Math.abs(delay) > 30) logger.warn(`Clock is out of sync (${delay} ms)`);
 
-    let config = conf.init();
+    let config = await conf.init();
     const authentication = await auth.init(config);
     const authTime = new Date();
 

@@ -4,12 +4,11 @@
 */
 
 const fs = require('fs');
-const readlineSync = require('readline-sync');
-const prompt = readlineSync.question;
 
 const logger = require('./logger');
+const util = require('./util');
 
-const init = () => {
+const init = async () => {
 
   let config = {};
 
@@ -23,10 +22,10 @@ const init = () => {
   else {
     logger.warn("Configuration not found! Input credentials\n");
 
-    config.email = prompt('Email: ');
-    config.password = prompt('Password: ', {noEchoBack: true});
+    config.email = util.prompt('Email: ');
+    config.password = util.prompt('Password: ', {noEchoBack: true});
 
-    if (readlineSync.keyInYNStrict("Save")) fs.writeFileSync('../config.json', JSON.stringify(config));
+    if (await util.selectYN("Save")) fs.writeFileSync('../config.json', JSON.stringify(config));
 
     console.log();
 
