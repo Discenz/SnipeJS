@@ -19,7 +19,6 @@ const init = async (config) => {
 	return auth;
 }
 
-
 const authenticate = async (email, password) => {
   const json = {
       agent: { name: "Minecraft", version: 1 }, username: email, password: password
@@ -31,7 +30,7 @@ const authenticate = async (email, password) => {
       }
   });
 
-  if (req.status != 200) logger.error(`Could not authenticate: ${email}:${password}`);
+  if (req.status != 200) logger.error(`Could not authenticate: ${email}`);
 
   const res = {token: req.data.accessToken, name: req.data.selectedProfile.name, id: req.data.selectedProfile.id, snipe:req.data.selectedProfile.paid}
 
@@ -91,17 +90,34 @@ const challenges = async (token, config) => {
   return;
 }
 
+// //Refresh request. Does not work without client token?
+// const refresh = async (token) => {
+//   const bearerPayload = {
+//       accessToken: token
+//   }
+//
+//   const req = await axios.post("https://authserver.mojang.com/refresh", bearerPayload, {
+//       headers: {
+//           "Content-Type": "application/json"
+//       }
+//   });
+//
+//   if (req.status != 200) return logger.error(`Could not refresh token.`);
+//
+//   return req.data.accessToken;
+// }
+//
+
 const validate = async (token) => {
   const bearerPayload = {
       accessToken: token
   }
   const req = await axios.post("https://authserver.mojang.com/validate", bearerPayload, {
       headers: {
-          // "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36",
           "Content-Type": "application/json"
       }
   });
-  if (req.status != 204) return logger.error(`Could not validate: ${email}:${password}`);
+  if (req.status != 204) return logger.error(`Could not validate.`);
   return true;
 }
 
