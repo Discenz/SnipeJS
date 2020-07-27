@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Virachoca/SnipeJS.git"
+    "url": "git+https://github.com/Discenz/SnipeJS.git"
   },
   "keywords": [
     "Minecraft",
@@ -20,9 +20,9 @@
   "author": "Discens",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Virachoca/SnipeJS/issues"
+    "url": "https://github.com/Discenz/SnipeJS/issues"
   },
-  "homepage": "https://github.com/Virachoca/SnipeJS#readme",
+  "homepage": "https://github.com/Discenz/SnipeJS#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "^4.1.0",

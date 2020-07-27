@@ -6,7 +6,31 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
 
-const logger = require('./logger')
+const logger = require('./logger');
+
+const snipe = (uuid, token, json) => {
+  axios.post(
+    "https://api.mojang.com/user/profile/"+uuid+"/name", json, {headers: {"Authorization": token}}
+  ).then(function (response){
+      logger.info("Name sniped!")
+      console.log(response.data);
+  }).catch(function (error) {
+      logger.warn("Snipe failed! at " + (snipeTime- new Date()) + "ms");
+      console.log(error.response.data);
+  });
+}
+
+const block = (target, token) => {
+  axios.post(
+    "https://api.mojang.com/user/profile/agent/minecraft/name/"+target, {headers:{'Authorization': token}}
+  ).then(function (response){
+      logger.info("Name Blocked!");
+      console.log(response.data);
+  }).catch(function (error) {
+      logger.warn("Block failed! at " + (snipeTime- new Date()) + "ms");
+      console.log(error.response.data);
+  });
+}
 
 const ping = async () => {
   const before = new Date();

@@ -16,7 +16,7 @@ const snipe = () => {
   ).then(function (response){
       console.log(response.data);
   }).catch(function (error) {
-      logger.warn("Snipe failed! at" + (snipeTime- new Date()) + "ms");
+      logger.warn("Snipe failed! at " + (snipeTime- new Date()) + "ms");
       console.log(error.response.data);
   });
 }
