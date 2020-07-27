@@ -4,9 +4,6 @@ const conf = require('./util/conf');
 const http = require('./util/http');
 const logger = require('./util/logger');
 
-const readlineSync = require('readline-sync');
-const prompt = readlineSync.question;
-
 const init = async () => {
     util.printTitle();
 
@@ -18,7 +15,7 @@ const init = async () => {
     const authTime = new Date();
 
     console.log();
-    config.target = prompt('Please input target: ')
+    config.target = util.prompt('Please input target: ')
     console.log();
 
     snipeTime = await http.getAvailableTime(config.target);
