@@ -14,7 +14,9 @@ const snipe = () => {
       "Authorization": token
     }}
   ).then(function (response){
+      logger.info("Name sniped.")
       console.log(response.data);
+      process.exit();
   }).catch(function (error) {
       logger.warn("Snipe failed! at " + (snipeTime- new Date()) + "ms");
       console.log(error.response.data);
@@ -23,7 +25,7 @@ const snipe = () => {
 
 const sniper = () => {
   logger.info("Attempting to snipe")
-  for(let i=0; i<5; i++) snipe();
+  for(let i=0; i<10; i++) snipe();
 }
 
 const preSnipe = async (reauth, authentication, config) => {

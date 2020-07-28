@@ -7,6 +7,8 @@ const logger = require('./util/logger');
 const init = async () => {
     util.printTitle();
 
+    if(await util.checkForUpdate()) logger.warn("You are on an outdated version of SnipeJS");
+
     const delay = await http.getTime() - new Date();
     if (Math.abs(delay) > 30) logger.warn(`Clock is out of sync (${delay} ms)`);
 

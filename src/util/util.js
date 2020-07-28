@@ -4,10 +4,13 @@
 */
 
 const fs = require('fs');
-const logger = require('./logger');
 const cliSelect = require('cli-select');
 const chalk = require('chalk');
 const readlineSync = require('readline-sync');
+const ansi = require('ansi-escapes');
+
+const logger = require('./logger');
+const http = require('./http');
 
 const prompt = (msg, args) => {
   return readlineSync.question(chalk.green("? ") + msg, args);
@@ -56,6 +59,27 @@ const select = async (msg, choices) => {
   return choice.value
 }
 
+const selectClean = async (msg, choices) => {
+  console.log(chalk.green("? ")+msg)
+  const choice = await cliSelect({
+      selected: chalk.blue.bold('>'),
+      unselected: ' ',
+      values: choices,
+      valueRenderer: (value, selected) => {
+          if (selected) {
+              return chalk.blue.bold(value);
+          }
+
+          return value;
+      },
+
+  }).catch(() => {
+    process.exit();
+  });
+  process.stdout.write(ansi.eraseLines(2));
+  return choice.value
+}
+
 const printTitle = () => {
   console.log(fs.readFileSync("../doc/title.txt").toString());
 }
@@ -68,8 +92,32 @@ const convertTime = (time) => {
   return arr;
 }
 
+const convertVersion = (version) => {
+  let arr = version.split(".");
+  for (let i=0; i<arr.length; i++) arr[i] = parseInt(arr[i]);
+  return arr;
+}
+
+const compareVersion = (local, remote) => {
+  local = convertVersion(local);
+  remote = convertVersion(remote);
+
+  for(let i=0;i<3;i++) if(remote[i]> local[i]) return true;
+
+  return false;
+}
+
+const checkForUpdate = async () => {
+  let local = JSON.parse(fs.readFileSync("../package.json")).version;
+  let remote = (await http.remotePackage()).version;
+
+  return compareVersion(local, remote);
+}
+
+exports.checkForUpdate = checkForUpdate;
 exports.convertTime = convertTime;
 exports.printTitle = printTitle;
 exports.selectYN = selectYN;
 exports.select = select;
 exports.prompt = prompt;
+exports.selectClean = selectClean;

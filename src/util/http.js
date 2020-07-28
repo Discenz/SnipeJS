@@ -72,7 +72,14 @@ const getTime = async () => {
   return (new Date(req.data.datetime));
 }
 
+const remotePackage = async () => {
+  const req = await axios("https://raw.githubusercontent.com/Discenz/SnipeJS/master/package.json");
+  if(req.status != 200) logger.error("Could not connect to GitHub");
+  return req.data;
+}
+
 exports.getAvailableTime = getAvailableTime;
 exports.getTime = getTime;
 exports.getUUID = getUUID;
 exports.ping = ping;
+exports.remotePackage = remotePackage;
