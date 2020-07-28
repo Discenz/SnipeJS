@@ -1,6 +1,6 @@
 {
   "name": "snipejs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Minecraft name sniper written in JS",
   "main": "index.js",
   "scripts": {
