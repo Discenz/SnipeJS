@@ -1,2 +1,2 @@
 #!/bin/bash
-npm src/snipe.js
+/usr/bin/node src/snipe.js
