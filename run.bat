@@ -1,3 +1,3 @@
 @echo off
-npm src/snipe.js
+node src/snipe.js
 pause
